@@ -63,7 +63,7 @@
 Name:      xrootd
 Epoch:     1
 Version:   5.0.0
-Release:   0.rc99%{?dist}%{?_with_clang:.clang}%{?_with_asan:.asan}
+Release:   1.rc99%{?dist}%{?_with_clang:.clang}%{?_with_asan:.asan}
 Summary:   Extended ROOT file server
 Group:     System Environment/Daemons
 License:   LGPLv3+
