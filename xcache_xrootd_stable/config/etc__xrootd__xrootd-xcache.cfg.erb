@@ -135,13 +135,14 @@ fi
 if exec xrootd
 
   xrd.protocol http:$xrdPort libXrdHttp.so
-  http.httpsmode auto
+  #http.httpsmode auto
 fi
 if $redirectorDCP && exec xrootd
   http.desthttps yes
 else if $hostsDCP && exec xrootd
-  xrd.tls /etc/grid-security/hostcert.pem /etc/grid-security/hostkey.pem
-  xrd.tlsca certdir /etc/grid-security/certificates
+  http.cadir /etc/grid-security/certificates
+  http.cert  /etc/grid-security/hostcert.pem
+  http.key   /etc/grid-security/hostkey.pem
   http.selfhttps2http yes
   http.secretkey 4hcoid6dds908sfgb2stdwc4jisdfbn5ilsydg
   http.secxtractor libXrdSecgsiVOMS.so vos=atlas,cms,escape,dteam|grpopt=02|dbg
