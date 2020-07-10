@@ -24,15 +24,11 @@ RUN yum install -y epel-release yum-plugin-ovl \
     && yum clean all -y
 
 ### packages
-RUN yum install -y rpm-build cmake3 readline-devel \
-                   fuse-devel libxml2-devel ncurses-devel \
-                   libcurl-devel libuuid-devel libmacaroons-devel \
-                   json-c-devel python2-devel python3-devel \
-                   selinux-policy-devel doxygen systemd-devel \
-                   davix davix-devel \
-    && yum clean all -y
-
-RUN yum install -y krb5-devel openssl-devel graphviz
+RUN yum install -y xrootd \
+                   xrootd-client xrootd-client-devel xrootd-client-libs \
+                   xrootd-devel xrootd-doc xrootd-fuse xrootd-libs xrootd-private-devel xrootd-selinux \ 
+                   xrootd-server xrootd-server-devel xrootd-server-libs \
+                   xrdcl-http xrootd-voms
 
 RUN yum install -y python36 pip3
 RUN pip3 install requests
@@ -40,7 +36,7 @@ RUN pip3 install requests
 RUN yum install -y jemalloc lsof iperf3
 
 RUN yum install -y strace telnet gperftools
-RUN yum install -y scitokens-cpp scitokens-cpp-devel
+RUN yum install -y xrootd-lcmaps xrootd-scitokens xrootd-multiuser scitokens-cpp scitokens-cpp-devel
 
 ### vomses
 RUN yum install -y wlcg-voms-atlas wlcg-voms-cms wlcg-voms-dteam
@@ -52,28 +48,10 @@ RUN mkdir -p /etc/vomses \
 RUN yum install -y voms-clients voms-clients-java voms-api-java osg-ca-certs
 
 ### XRootD HEAD - ownership should be set in ENTRYPOINT if external volume is mounted with '-v' option from host
-COPY files/xrootd.spec .
-
-RUN git clone https://github.com/xrootd/xrootd.git \
-    && cd /root/xrootd \
-    && git submodule init && git submodule update -- src/XrdClHttp \
-    && cd /root/xrootd/packaging \
-    && ./makesrpm.sh && cp xrootd-*rpm /tmp \
-    && mkdir -p /tmp/x /root/rpmbuild /root/rpmbuild/SPECS/ /root/rpmbuild/SOURCES/ \
-    && cd /tmp/x \
-    && rpm2cpio /tmp/xroot*rpm | cpio -dimv \
-    && cp /root/xrootd.spec /root/rpmbuild/SPECS/ && cp xrootd.tar.gz /root/rpmbuild/SOURCES/ \
-    && rm -rf /tmp/xrootd-*rpm /tmp/x \
-    && cd /root/rpmbuild/SPECS \
-    && rpmbuild -ba --define "_with_xrdclhttp 1" xrootd.spec \
-    && rpm -Uvh --nodeps /root/rpmbuild/RPMS/x86_64/* /root/rpmbuild/RPMS/noarch/* \
-    && cd /root && rm -rf build xrootd rpmbuild \
-    && yum --enablerepo=osg-upcoming-development install -y xrootd-lcmaps xrootd-scitokens xrootd-multiuser
-
 RUN mkdir -p /data/xrd
 RUN chown -R xrootd:xrootd /data && chmod -R 0755 /data
 
-COPY config/etc__xrootd__xrootd-xcache_XRootD_HEAD.cfg.erb /etc/xrootd/xrootd-xcache.cfg
+COPY config/etc__xrootd__xrootd-xcache.cfg.erb /etc/xrootd/xrootd-xcache.cfg
 COPY config/etc__xrootd__Authfile.erb /etc/xrootd/Authfile
 
 EXPOSE 1094/tcp
