@@ -1,0 +1,84 @@
+###########################################################################
+# This is a very simple sample configuration file sufficient to start an  #
+# xrootd data server using the MockData OSS plugin, on the default port   #
+# 1094. This server runs by itself (stand-alone) and does not assume it   #
+# is part of a cluster. You can then connect to this server to access the #
+# virtual files anywhere under '/'.                                       #
+#                                                                         #
+# On successful start-up you will see 'initialization completed' in the   #
+# last message. You can now connect to the xrootd server.                 #
+#                                                                         #
+# Note: You should always create a *single* configuration file for all    #
+# daemons related to xrootd.                                              #
+###########################################################################
+
+# The export directive indicates which paths are to be exported.
+#
+all.export /
+
+# The adminpath and pidpath variables indicate where the pid and various
+# IPC files should be placed
+#
+all.adminpath /var/spool/xrootd
+all.pidpath /var/run/xrootd
+
+ofs.osslib /usr/lib64/libXrdMockDataOss.so
+xrootd.async force minsize 4096
+
+xrd.port 1213
+
+### SET VARIABLES ###
+
+set xrdPort=1213
+set originLogLevel=debug
+
+### GENERAL CONFIGURATION ###
+
+xrootd.seclib /usr/lib64/libXrdSec.so
+
+##### SECURITY CONFIGURATION ######
+# use gsi as client-cache authN method
+sec.protocol /usr/lib64 gsi \
+  -certdir:/etc/grid-security/certificates \
+  -cert:/etc/grid-security/hostcert.pem \
+  -key:/etc/grid-security/hostkey.pem \
+  -crl:1 \
+  -ca:1 \
+  -gridmap:/dev/null -vomsat:1 -vomsfun:libXrdSecgsiVOMS.so
+  # In case the /etc/grid-security/grid-mapfile is used, which contain the mapping of the XCache DN to the user ewp2c01, the following can be used:
+  #-gridmap:/etc/grid-security/grid-mapfile
+
+# use gsi user<-->namespace mapping file as client-cache authZ method
+acc.audit deny
+acc.authdb /etc/xrootd/Authfile
+sec.protbind * gsi
+
+acc.authrefresh 60
+acc.gidlifetime 60
+ofs.authorize
+
+### HTTP(S) and Tokens
+
+xrd.protocol http:$xrdPort libXrdHttp.so
+http.cadir /etc/grid-security/certificates
+http.cert  /etc/grid-security/hostcert.pem
+http.key   /etc/grid-security/hostkey.pem
+http.secxtractor libXrdSecgsiVOMS.so vos=atlas,cms,escape,dteam|grpopt=02|dbg
+http.listingdeny yes
+http.header2cgi Authorization authz
+
+# Enable the SciTokens authorization library
+ofs.authlib libXrdAccSciTokens.so config=/etc/xrootd/scitokens.cfg
+http.staticpreload http://static/robots.txt /etc/xrootd/robots.txt
+
+# Uncomment the following line to get extensive debugging information 
+# logging level for all the different activities
+#xrootd.trace all $originLogLevel
+#xrd.trace    all $originLogLevel
+#ofs.trace    all $originLogLevel
+sec.trace    all $originLogLevel
+#http.trace   all $originLogLevel 
+
+xrootd.trace emsg fs redirect request auth
+ofs.trace all debug
+http.trace auth

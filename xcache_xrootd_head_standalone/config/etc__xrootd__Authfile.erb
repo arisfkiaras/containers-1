@@ -1,0 +1,127 @@
+# In case the /etc/grid-security/grid-mapfile is used, which contain the mapping of the XCache DN to the user ewp2c01, the following can be used:
+#u ewp2c01 / a
+# In case the Role attribute is used to allow a layer of XCache to fetch data in another layer of XCache, the following can be used:
+= xcache o: escape r: xcache
+= escapecmsuser o: escape g: /escape/cms
+= escapevo o: escape
+= cmsvo o: cms
+= atlasvo o: atlas
+= dteamvo o: dteam
+
+t originhttp    /http:/escape-wp2-puppet-mockdata-server.cern.ch                lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch:1094           lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch:1213           lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch               lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch:1094          lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch:1213          lr
+
+t cmspaths      /cms                                                            lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch/cms            lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch:1094/cms       lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch:1213/cms       lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch/cms           lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch:1094/cms      lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch:1213/cms      lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch/cms            lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch:1094/cms       lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch:1213/cms       lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch/cms           lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch:1094/cms      lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch:1213/cms      lr
+
+t atlaspaths    /atlas                                                          lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch/atlas          lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch:1094/atlas     lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch:1213/atlas     lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch/atlas         lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch:1094/atlas    lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch:1213/atlas    lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch/atlas          lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch:1094/atlas     lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch:1213/atlas     lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch/atlas         lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch:1094/atlas    lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch:1213/atlas    lr
+
+t escapepaths   /escape                                                         lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch/escape         lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch:1094/escape    lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch:1213/escape    lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch/escape        lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch:1094/escape   lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch:1213/escape   lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch/escape         lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch:1094/escape    lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch:1213/escape    lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch/escape        lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch:1094/escape   lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch:1213/escape   lr
+
+t dteampaths    /dteam                                                          lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch/dteam          lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch:1094/dteam     lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch:1213/dteam     lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch/dteam         lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch:1094/dteam    lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch:1213/dteam    lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch/dteam          lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch:1094/dteam     lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch:1213/dteam     lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch/dteam         lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch:1094/dteam    lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch:1213/dteam    lr
+
+t mockdatapaths /mockdata                                                       lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch/mockdata       lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch:1094/mockdata  lr \
+                /root:/escape-wp2-puppet-mockdata-server.cern.ch:1213/mockdata  lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch/mockdata      lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch:1094/mockdata lr \
+                /xroot:/escape-wp2-puppet-mockdata-server.cern.ch:1213/mockdata lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch/mockdata       lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch:1094/mockdata  lr \
+                /http:/escape-wp2-puppet-mockdata-server.cern.ch:1213/mockdata  lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch/mockdata      lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch:1094/mockdata lr \
+                /https:/escape-wp2-puppet-mockdata-server.cern.ch:1213/mockdata lr
+
+x xcache / a
+
+x escapecmsuser cmspaths escapepaths mockdatapaths
+
+s atlasvo atlaspaths mockdatapaths
+
+s cmsvo cmspaths mockdatapaths
+
+s escapevo escapepaths mockdatapaths
+
+s dteamvo dteampaths mockdatapaths
+
+u * mockdatapaths originhttp \
+    /dpm                                                          lr \
+    /root:/lapp-testse01.in2p3.fr:1094/dpm                        lr \
+    /xroot:/lapp-testse01.in2p3.fr:1094/dpm                       lr \
+    /http:/escape-wp2-puppet-mockdata-server.cern.ch/atlas        -a \
+    /http:/escape-wp2-puppet-mockdata-server.cern.ch:1094/atlas   -a \
+    /http:/escape-wp2-puppet-mockdata-server.cern.ch:1213/atlas   -a \
+    /https:/escape-wp2-puppet-mockdata-server.cern.ch/atlas       -a \
+    /https:/escape-wp2-puppet-mockdata-server.cern.ch:1094/atlas  -a \
+    /https:/escape-wp2-puppet-mockdata-server.cern.ch:1213/atlas  -a \
+    /http:/escape-wp2-puppet-mockdata-server.cern.ch/cms          -a \
+    /http:/escape-wp2-puppet-mockdata-server.cern.ch:1094/cms     -a \
+    /http:/escape-wp2-puppet-mockdata-server.cern.ch:1213/cms     -a \
+    /https:/escape-wp2-puppet-mockdata-server.cern.ch/cms         -a \
+    /https:/escape-wp2-puppet-mockdata-server.cern.ch:1094/cms    -a \
+    /https:/escape-wp2-puppet-mockdata-server.cern.ch:1213/cms    -a \
+    /http:/escape-wp2-puppet-mockdata-server.cern.ch/escape       -a \
+    /http:/escape-wp2-puppet-mockdata-server.cern.ch:1094/escape  -a \
+    /http:/escape-wp2-puppet-mockdata-server.cern.ch:1213/escape  -a \
+    /https:/escape-wp2-puppet-mockdata-server.cern.ch/escape      -a \
+    /https:/escape-wp2-puppet-mockdata-server.cern.ch:1094/escape -a \
+    /https:/escape-wp2-puppet-mockdata-server.cern.ch:1213/escape -a \
+    /http:/escape-wp2-puppet-mockdata-server.cern.ch/dteam        -a \
+    /http:/escape-wp2-puppet-mockdata-server.cern.ch:1094/dteam   -a \
+    /http:/escape-wp2-puppet-mockdata-server.cern.ch:1213/dteam   -a \
+    /https:/escape-wp2-puppet-mockdata-server.cern.ch/dteam       -a \
+    /https:/escape-wp2-puppet-mockdata-server.cern.ch:1094/dteam  -a \
+    /https:/escape-wp2-puppet-mockdata-server.cern.ch:1213/dteam  -a

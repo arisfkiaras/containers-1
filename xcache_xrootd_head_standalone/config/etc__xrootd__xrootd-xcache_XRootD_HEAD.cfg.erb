@@ -1,0 +1,122 @@
+### SET VARIABLES ###
+
+set xrdPort=1094
+
+set originServer=escape-wp2-puppet-mockdata-server.cern.ch
+
+set originServerPort=1094
+set cachedDataPath=/data/xrd
+set cacheRam=16
+set prefetch=8
+set blkSize=512k
+set cacheLowWM=0.85
+set cacheHiWM=0.95
+set cacheLogLevel=debug
+
+### GENERAL CONFIGURATION ###
+
+all.export / stage
+
+#all.adminpath /tmp/xcache
+
+oss.localroot $cachedDataPath
+
+pss.origin = $originServer:$originServerPort
+
+
+oss.localroot  $cachedDataPath
+oss.space meta $cachedDataPath/
+oss.space data $cachedDataPath/
+oss.defaults inplace
+
+oss.path / r/w
+
+pss.ciosync 60 2419200
+pss.config streams 512 workers 16
+
+pss.setopt ConnectTimeout 25
+pss.setopt DataServerConn_ttl 1200
+# To debug connections to the fedration (4 Debug, 3 Error, 2 Warning, 1 Info)
+# This is extremely HEAVY and will slow down normal operation significantly
+# and fill up your disk, too.
+# **** Enable only when it is really needed!!! ****
+pss.setopt DebugLevel 4
+pss.setopt ParStreamsPerPhyConn 2
+pss.setopt ReconnectWait 1800
+pss.setopt RedirectLimit 16
+pss.setopt RedirectorConn_ttl 3600
+pss.setopt RequestTimeout 25
+pss.setopt TransactionTimeout 28800
+pss.setopt WorkerThreads 64
+  
+ofs.osslib      libXrdPss.so
+# Config warning: 'libXrdFileCache' has been replaced by 'libXrdPfc'; for future compatability specify 'default' instead!
+pss.cachelib    default
+pfc.ram         ${cacheRam}g
+pfc.blocksize   $blkSize
+pfc.diskusage   $cacheLowWM $cacheHiWM
+pfc.prefetch    $prefetch
+pfc.spaces      data meta
+
+pss.setopt ParallelEvtLoop 10
+pss.setopt ConnectionRetry 2
+
+xrootd.seclib /usr/lib64/libXrdSec.so
+
+##### SECURITY CONFIGURATION ######
+# use gsi as client-cache authN method
+sec.protocol /usr/lib64 gsi \
+  -certdir:/etc/grid-security/certificates \
+  -cert:/etc/grid-security/hostcert.pem \
+  -key:/etc/grid-security/hostkey.pem \
+  -crl:1 \
+  -ca:1 \
+  -gridmap:/dev/null -vomsat:1 -vomsfun:libXrdSecgsiVOMS.so
+  # In case the /etc/grid-security/grid-mapfile is used, which contain the mapping of the XCache DN to the user ewp2c01, the following can be used:
+  #-gridmap:/etc/grid-security/grid-mapfile
+
+# use gsi user<-->namespace mapping file as client-cache authZ method
+acc.audit deny
+acc.authdb /etc/xrootd/Authfile
+sec.protbind * gsi
+
+acc.authrefresh 60
+acc.gidlifetime 60
+ofs.authorize
+
+### HTTP(S) and Tokens
+
+if exec xrootd
+
+  xrd.protocol http:$xrdPort libXrdHttp.so
+  http.httpsmode auto
+
+  xrd.tls /etc/grid-security/hostcert.pem /etc/grid-security/hostkey.pem
+  xrd.tlsca certdir /etc/grid-security/certificates
+  http.selfhttps2http yes
+  http.secretkey 4hcoid6dds908sfgb2stdwc4jisdfbn5ilsydg
+  http.secxtractor libXrdSecgsiVOMS.so vos=atlas,cms,escape,dteam|grpopt=02|dbg
+
+  http.listingdeny yes
+  http.header2cgi Authorization authz
+
+  # Enable the SciTokens authorization library
+  ofs.authlib libXrdAccSciTokens.so config=/etc/xrootd/scitokens.cfg
+  http.staticpreload http://static/robots.txt /etc/xrootd/robots.txt
+
+  # Uncomment the following line to get extensive debugging information
+  # logging level for all the different activities
+  #cms.trace    all $cacheLogLevel
+  #pfc.trace        $cacheLogLevel
+  #xrootd.trace all $cacheLogLevel
+  #xrd.trace    all $cacheLogLevel
+  #ofs.trace    all $cacheLogLevel
+  sec.trace    all $cacheLogLevel
+  #http.trace   all $cacheLogLevel 
+
+  xrootd.trace emsg fs redirect request auth
+  ofs.trace all debug
+  pss.trace all debug
+  http.trace auth
+
+fi
