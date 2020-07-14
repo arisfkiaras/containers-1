@@ -1,0 +1,12 @@
+# In case the /etc/grid-security/grid-mapfile is used, which contain the mapping of the XCache DN to the user ewp2c01, the following can be used:
+#u ewp2c01 / a
+# In case the Role attribute is used to allow a layer of XCache to fetch data in another layer of XCache, the following can be used:
+= xcache o: escape r: xcache
+x xcache / a
+= escapecmsuser o: escape g: /escape/cms
+s escapecmsuser /cms      lr
+u *             /mockdata lr
+o atlas         /atlas    lr
+o cms           /cms      lr
+o escape        /escape   lr
+o dteam         /dteam    lr
