@@ -23,6 +23,6 @@ echo 'Initializing Sync to IAM Loop'
 
 while true; do
     python Utilities-and-Operations-Scripts/iam-rucio-sync/sync_iam_rucio.py
-    echo 'Will sleep for $SLEEP_TIME_MINUTES'
+    echo 'Will sleep for ' $SLEEP_TIME_MINUTES
     sleep $SLEEP_TIME_MINUTES
 done

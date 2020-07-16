@@ -12,7 +12,7 @@ WORKDIR /scripts
 
 RUN git clone https://github.com/ESCAPE-WP2/Utilities-and-Operations-Scripts.git
 
-COPY ./scripts/* /scripts
+COPY ./scripts/* /scripts/
 COPY ./entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
