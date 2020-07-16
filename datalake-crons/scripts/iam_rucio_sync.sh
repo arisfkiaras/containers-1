@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! -z "$ENABLE_IAM_CRON" ]; then
+echo 'IAM cron not enabled. Set ENABLE_IAM_CRON to enable'
+exit 1
+fi
+
 SLEEP_TIME_MINUTES=${IAM_RUCIO_SYNC_SLEEP_TIME_MINUTES:-120m}
 
 echo 'Initializing Sync to IAM Loop'
@@ -14,8 +19,6 @@ export IAM_CLIENT_ID=$IAM_RUCIO_SYNC_CLIENT_ID
 export IAM_CLIENT_SECRET=$IAM_RUCIO_SYNC_CLIENT_SECRET
 
 
-echo 'Initializing Sync to IAM Loop'
-echo 'Initializing Sync to IAM Loop'
 echo 'Initializing Sync to IAM Loop'
 
 while true; do
