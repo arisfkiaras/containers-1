@@ -3,7 +3,7 @@
 
 - [Origin-XRootD-stable](#origin-xrootd-stable)
 
-The procedure is similar to [XCache-Containers](#xcache-containers) with the following differences.
+The procedure is similar to [XCache-Containers](containers/xcache/README.md#xcache-containers) with the following differences.
 
 It is necessary to manually place files into `ORIGIN_ST` if MockStorage is meant to be used.
 
