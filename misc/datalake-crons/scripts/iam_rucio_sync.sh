@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [ ! -z "$ENABLE_IAM_CRON" ]; then
-echo 'IAM cron not enabled. Set ENABLE_IAM_CRON to enable'
-exit 1
-fi
+# if [ ! -z "$ENABLE_IAM_CRON" ]; then
+# echo 'IAM cron not enabled. Set ENABLE_IAM_CRON to enable'
+# exit 1
+# fi
 
 SLEEP_TIME_MINUTES=${IAM_RUCIO_SYNC_SLEEP_TIME_MINUTES:-120m}
 
